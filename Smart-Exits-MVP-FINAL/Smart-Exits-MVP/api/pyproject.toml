@@ -1,0 +1,10 @@
+entrypoint = "main.py"
+
+[packages]
+flask = "*"
+
+[run]
+command = "python main.py"
+
+[interpreter]
+command = ["python"]

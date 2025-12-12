@@ -1,0 +1,45 @@
+{
+    "timestamp": "2025-12-10T17:18:03.748120",
+    "predicted_congestion": {
+        "exit_id": 259,
+        "location": "grid_x 25, grid_y 9",
+        "congestion_in": "10 دقائق",
+        "severity": "مرتفع",
+        "recommended_closure_duration": "45 دقيقة",
+        "reason": "ارتفاع المركبات من 5 إلى 35, السرعة الحالية 17.0 كم/س"
+    },
+    "traffic_authority_dashboard": {
+        "alert": "اختناق مروري محتمل بعد 10 دقائق في المخرج 259",
+        "recommended_action": "إغلاق المخرج لمدة 45 دقيقة",
+        "cta": "انقر لتأكيد الإغلاق",
+        "predicted_traffic_stats": {
+            "current_vehicle_count": 5,
+            "predicted_vehicle_count": 35,
+            "speed_drop_rate": "57.6%",
+            "impact_if_closed": "تحسن التدفق بـ 23%"
+        }
+    },
+    "driver_app_view": {
+        "notification": {
+            "title": "تنبيه: إغلاق مخرج 259 قريبًا",
+            "details": "سيتم الإغلاق بعد 10 دقائق لمدة 45 دقيقة.",
+            "impact_on_route": {
+                "your_eta_to_exit": "15 دقيقة",
+                "expected_total_trip_time_if_continue": "60 دقيقة",
+                "recommended_alternatives": [
+                    {
+                        "route": "طريق العروبة",
+                        "estimated_time": "40 دقيقة",
+                        "is_fastest": true
+                    },
+                    {
+                        "route": "مسار بديل عبر منطقة أقل ازدحامًا (grid 24,10)",
+                        "estimated_time": "45 دقيقة",
+                        "is_fastest": false
+                    }
+                ],
+                "cta": "إعادة التوجيه للطريق الأسرع"
+            }
+        }
+    }
+}

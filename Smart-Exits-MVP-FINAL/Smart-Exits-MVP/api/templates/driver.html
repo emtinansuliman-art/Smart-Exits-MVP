@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>إشعارات السائق - المخارج الذكية</title>
+    <style>
+        body { font-family: sans-serif; background: #eef2ff; padding: 20px; }
+        .box { background: white; padding: 20px; border-radius: 10px; }
+        h1 { color: #0066cc; }
+        .route-box {
+            padding: 10px; margin-top: 10px; background: #f4f4f4; border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>تنبيه للسائق</h1>
+
+<div id="driverBox" class="box">جاري التحميل...</div>
+
+<script>
+    async function loadDriver() {
+        const res = await fetch("/api/smart_exits");
+        const data = await res.json();
+
+        const n = data.driver_app_view.notification;
+
+        let alternativesHTML = "";
+        n.impact_on_route.recommended_alternatives.forEach(alt => {
+            alternativesHTML += `
+                <div class="route-box">
+                    <strong>${alt.route}</strong> — ${alt.estimated_time}
+                    ${alt.is_fastest ? "<span style='color:green'> (الأسرع)</span>" : ""}
+                </div>
+            `;
+        });
+
+        document.getElementById("driverBox").innerHTML = `
+            <h2>${n.title}</h2>
+            <p>${n.details}</p>
+            <p><strong>زمن الوصول للمخرج:</strong> ${n.impact_on_route.your_eta_to_exit}</p>
+            <p><strong>الوقت المتوقع للرحلة لو استمريت:</strong> ${n.impact_on_route.expected_total_trip_time_if_continue}</p>
+            <h3>طرق بديلة مقترحة:</h3>
+            ${alternativesHTML}
+            <button style="padding:10px 20px; background:#0077cc; color:white; border:none; border-radius:6px">
+                إعادة التوجيه للطريق الأسرع
+            </button>
+        `;
+    }
+
+    loadDriver();
+</script>
+
+</body>
+</html>

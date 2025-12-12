@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<title>Smart Exits Dashboard</title>
+<style>
+    body { font-family: Arial; padding: 20px; background: #f5f5f5; }
+    .card { background: white; padding: 20px; margin-bottom: 20px; border-radius: 12px; box-shadow: 0 0 10px #ddd; }
+    h2 { margin-top: 0; }
+    button { padding: 10px 20px; border:none; background:#007bff; color:white; border-radius:6px; cursor:pointer; }
+</style>
+</head>
+
+<body>
+
+<h1>📊 Smart Exits – النموذج الأولي</h1>
+
+<div id="authority" class="card"></div>
+<div id="driver" class="card"></div>
+
+<script>
+async function loadData() {
+    const res = await fetch("/api/smart_exits");
+    const data = await res.json();
+
+    // واجهة المرور
+    document.getElementById("authority").innerHTML = `
+        <h2>لوحة التحكم – المرور</h2>
+        <p><strong>التنبيه:</strong> ${data.traffic_authority_dashboard.alert}</p>
+        <p><strong>الإجراء الموصى به:</strong> ${data.traffic_authority_dashboard.recommended_action}</p>
+        <p><strong>السرعة الحالية:</strong> ${data.predicted_congestion.reason}</p>
+        <p><strong>التدفق المتوقع:</strong> ${data.traffic_authority_dashboard.predicted_traffic_stats.impact_if_closed}</p>
+        <button onclick="alert('تم إرسال أمر الإغلاق 🚧')">تأكيد الإغلاق</button>
+    `;
+
+    // واجهة المستخدم
+    const n = data.driver_app_view.notification;
+    document.getElementById("driver").innerHTML = `
+        <h2>واجهة المستخدم – التطبيق</h2>
+        <p><strong>${n.title}</strong></p>
+        <p>${n.details}</p>
+        <p><strong>وقت وصولك للمخرج:</strong> ${n.impact_on_route.your_eta_to_exit}</p>
+        <p><strong>مدة الرحلة لو استمريت:</strong> ${n.impact_on_route.expected_total_trip_time_if_continue}</p>
+
+        <h3>الطرق البديلة:</h3>
+        <ul>
+            ${n.impact_on_route.recommended_alternatives
+                .map(r => `<li>${r.route} – ${r.estimated_time}</li>`)
+                .join("")}
+        </ul>
+
+        <button onclick="alert('جاري إعادة التوجيه للطريق الأسرع 🚗💨')">
+            إعادة التوجيه
+        </button>
+    `;
+}
+
+loadData();
+</script>
+
+</body>
+</html>
